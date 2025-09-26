@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">Group1_Duangua</string>
+    <string name="top_up_screen_title">Nạp Tiền</string>
+    <string name="label_current_balance">Số dư hiện tại</string>
+    <string name="hint_enter_amount">Nhập số tiền cần nạp</string>
+    <string name="button_confirm_top_up">Nạp Tiền</string>
+    <string name="label_top_up_amount">Số Tiền Nạp</string>
+
+    <string name="my_wallet_title">Ví Của Tôi</string>
+    <string name="wallet_balance_label">Số dư ví</string>
+    <string name="choose_top_up_amount_label">Chọn số tiền nạp</string>
+    <string name="top_up_amount_20k">20,000đ</string>
+    <string name="top_up_amount_50k">50,000đ</string>
+    <string name="top_up_amount_100k">100,000đ</string>
+    <string name="top_up_amount_200k">200,000đ</string>
+    <string name="top_up_amount_500k">500,000đ</string>
+    <string name="custom_amount_button">Số tiền khác</string>
+    <string name="payment_method_label">Phương thức thanh toán</string>
+    <string name="payment_method_momo">Ví MoMo</string>
+    <string name="payment_method_zalopay">ZaloPay</string>
+    <string name="payment_method_bank">Chuyển khoản Ngân hàng</string>
+    <string name="current_balance_placeholder_vnd">0đ</string>
 </resources>
