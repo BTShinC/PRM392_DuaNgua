@@ -1,8 +1,11 @@
 package com.example.group1_duangua;
 
+import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,5 +29,14 @@ public class MainActivity extends AppCompatActivity {
             anim.setExitFadeDuration(2000);
             anim.start();
         }
+
+        Button btnStrart = findViewById(R.id.btnStartRace);
+        btnStrart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, RaceActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
