@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="purple_balance_card">#7E57C2</color> <!-- A nice medium purple -->
+    <color name="purple_balance_card">#7E57C2</color>
+    <color name="white">#FFFFFF</color>
+    <color name="purplePrimary">#7C4DFF</color>
+    <color name="orangeAccent">#FF3D00</color>
     <color name="green_success">#4CAF50</color> <!-- A common green for success messages -->
 </resources>
