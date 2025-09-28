@@ -3,4 +3,5 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="purple_balance_card">#7E57C2</color> <!-- A nice medium purple -->
+    <color name="green_success">#4CAF50</color> <!-- A common green for success messages -->
 </resources>
