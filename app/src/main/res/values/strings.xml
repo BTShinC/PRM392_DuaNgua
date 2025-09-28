@@ -20,4 +20,9 @@
     <string name="payment_method_zalopay">ZaloPay</string>
     <string name="payment_method_bank">Chuyển khoản Ngân hàng</string>
     <string name="current_balance_placeholder_vnd">0đ</string>
+
+    <!-- Strings for success dialog -->
+    <string name="dialog_title_payment_success">Thanh toán thành công</string>
+    <string name="dialog_message_payment_success">Giao dịch nạp tiền của quý khách đã thành công. Số dư của bạn đã được cập nhật.</string>
+    <string name="dialog_button_close">Đóng</string>
 </resources>

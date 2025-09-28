@@ -12,17 +12,25 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Group1_Duangua" >
         <activity
+            android:name=".ResultActivity"
+            android:exported="false" />
+        <activity
+
             android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".MainLoginActivity"
             android:exported="true" >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".TopUpActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

@@ -5,4 +5,5 @@
     <color name="white">#FFFFFF</color>
     <color name="purplePrimary">#7C4DFF</color>
     <color name="orangeAccent">#FF3D00</color>
+    <color name="green_success">#4CAF50</color> <!-- A common green for success messages -->
 </resources>
