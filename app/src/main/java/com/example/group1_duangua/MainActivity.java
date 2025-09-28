@@ -38,5 +38,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Button btnRecharge = findViewById(R.id.btnRecharge);
+        btnRecharge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, TopUpActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
