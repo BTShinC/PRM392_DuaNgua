@@ -1,6 +1,7 @@
 package com.example.group1_duangua;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -106,7 +107,11 @@ public class MainLoginActivity extends AppCompatActivity {
 
             if (user.equals(savedUser) && pass.equals(savedPass)) {
                 Toast.makeText(MainLoginActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
-                // TODO: chuyển sang màn hình game chính
+                Intent intent = new Intent(MainLoginActivity.this, MainActivity.class);
+                startActivity(intent);
+
+                // đóng màn hình login để không quay lại bằng nút Back
+                finish();
             } else {
                 Toast.makeText(MainLoginActivity.this, "Sai Tên đăng nhập hoặc Mật khẩu!", Toast.LENGTH_SHORT).show();
             }
