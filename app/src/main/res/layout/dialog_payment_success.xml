@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center_horizontal">
+
+    <ImageView
+        android:id="@+id/imageViewSuccessIcon"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:src="@drawable/ic_check_circle" 
+        app:tint="@color/green_success"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="@string/dialog_title_payment_success" />
+
+    <TextView
+        android:id="@+id/textViewDialogTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dialog_title_payment_success"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="@color/green_success"
+        android:layout_marginBottom="8dp"
+        android:textAlignment="center"/>
+
+    <TextView
+        android:id="@+id/textViewDialogMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dialog_message_payment_success"
+        android:textSize="16sp"
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginBottom="24dp"
+        android:textAlignment="center"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonDialogClose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dialog_button_close"
+        android:backgroundTint="@color/purple_balance_card" />
+
+</LinearLayout>
