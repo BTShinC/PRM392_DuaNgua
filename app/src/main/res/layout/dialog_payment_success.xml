@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto" 
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -12,7 +12,6 @@
         android:layout_width="72dp"
         android:layout_height="72dp"
         android:src="@drawable/ic_check_circle" 
-        app:tint="@color/green_success"
         android:layout_marginBottom="16dp"
         android:contentDescription="@string/dialog_title_payment_success" />
 
@@ -42,6 +41,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/dialog_button_close"
-        android:backgroundTint="@color/purple_balance_card" />
-
+        app:backgroundTint="@color/purple_balance_card" /> 
 </LinearLayout>
