@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/mainLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_gradient_anim">
+
+    <!-- Header -->
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#66000000"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/tvUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Người chơi: player1"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tvBalance"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_weight="1"
+            android:text="Số dư: 1000$"
+            android:textColor="#A3FF5A"
+            android:textStyle="bold"/>
+
+        <Button
+            android:id="@+id/btnRecharge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nạp tiền"
+            android:textColor="@android:color/white"
+            style="@style/PrimaryButton"
+            android:background="@drawable/bg_drawable"/>
+    </LinearLayout>
+
+    <!-- Khu đặt cược -->
+    <LinearLayout
+        android:id="@+id/bettingArea"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:background="@drawable/card_glass"
+        android:orientation="vertical"
+        android:padding="12dp"
+        app:layout_constraintTop_toBottomOf="@id/header"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chọn xe và nhập tiền cược"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"/>
+
+        <!-- Xe 1 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingTop="6dp">
+
+            <ImageView
+                android:id="@+id/icCar1"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:src="@drawable/car_red"
+                android:contentDescription="Xe 1"/>
+
+            <EditText
+                android:id="@+id/edtBetCar1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:hint="Tiền cược xe 1"
+                android:inputType="number"
+                android:textColor="@android:color/white"
+                android:textColorHint="#B3FFFFFF"/>
+        </LinearLayout>
+
+        <!-- Xe 2 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingTop="6dp">
+
+            <ImageView
+                android:id="@+id/icCar2"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:src="@drawable/car_white"
+                android:contentDescription="Xe 2"/>
+
+            <EditText
+                android:id="@+id/edtBetCar2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:hint="Tiền cược xe 2"
+                android:inputType="number"
+                android:textColor="@android:color/white"
+                android:textColorHint="#B3FFFFFF"/>
+        </LinearLayout>
+
+        <!-- Xe 3 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingTop="6dp">
+
+            <ImageView
+                android:id="@+id/icCar3"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:src="@drawable/car_blue"
+                android:contentDescription="Xe 3"/>
+
+            <EditText
+                android:id="@+id/edtBetCar3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:hint="Tiền cược xe 3"
+                android:inputType="number"
+                android:textColor="@android:color/white"
+                android:textColorHint="#B3FFFFFF"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Khu đua xe -->
+    <RelativeLayout
+        android:id="@+id/raceArea"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="12dp"
+        android:background="@drawable/card_glass"
+        app:layout_constraintTop_toBottomOf="@id/bettingArea"
+        app:layout_constraintBottom_toTopOf="@id/footer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/imgCar1"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="36dp"
+            android:src="@drawable/car_red"/>
+
+        <ImageView
+            android:id="@+id/imgCar2"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="120dp"
+            android:src="@drawable/car_white"/>
+
+        <ImageView
+            android:id="@+id/imgCar3"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="200dp"
+            android:src="@drawable/car_blue"/>
+    </RelativeLayout>
+
+    <!-- Footer -->
+    <LinearLayout
+        android:id="@+id/footer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <Button
+            android:id="@+id/btnStartRace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start Race"
+            android:textColor="@android:color/white"
+            style="@style/PrimaryButton"
+            android:background="@drawable/bg_drawable"/>
+
+        <Button
+            android:id="@+id/btnStatistics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="Thống kê"
+            android:textColor="@android:color/white"
+            style="@style/PrimaryButton"
+            android:background="@drawable/bg_drawable"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
