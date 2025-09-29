@@ -45,14 +45,23 @@
         android:layout_height="0dp"
         android:layout_margin="12dp"
         android:background="@drawable/card_glass"
+        android:clipChildren="true"
         app:layout_constraintTop_toBottomOf="@id/header"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Background đường đua -->
+        <!-- Đường đua cuộn - Hình ảnh 1 -->
         <ImageView
-            android:id="@+id/imgBackground"
+            android:id="@+id/trackImage1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/duong_dua"
+            android:scaleType="fitXY" />
+
+        <!-- Đường đua cuộn - Hình ảnh 2 -->
+        <ImageView
+            android:id="@+id/trackImage2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/duong_dua"
