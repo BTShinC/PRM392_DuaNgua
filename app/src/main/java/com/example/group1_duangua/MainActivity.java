@@ -10,32 +10,25 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-// import androidx.core.graphics.Insets; // Not strictly needed for this change
-// import androidx.core.view.ViewCompat; // Not strictly needed for this change
-// import androidx.core.view.WindowInsetsCompat; // Not strictly needed for this change
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView textViewMainBalanceValue; // Variable name can remain the same
+    private TextView textViewMainBalanceValue;
     private SharedPreferences sharedPreferences;
-    // Use the same constants as in TopUpActivity
     public static final String SHARED_PREFS_NAME = "MyPrefs";
     public static final String BALANCE_KEY = "balance";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // EdgeToEdge.enable(this); // Assuming this is fixed or handled separately
         setContentView(R.layout.activity_main);
 
-        // Initialize SharedPreferences
         sharedPreferences = getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE);
-
-        // Find the TextView for balance display using the correct ID from activity_main.xml
-        textViewMainBalanceValue = findViewById(R.id.tvBalance); // Changed ID here
+        textViewMainBalanceValue = findViewById(R.id.tvBalance);
 
         ConstraintLayout root = findViewById(R.id.mainLayout);
         Drawable bg = root.getBackground();
@@ -46,40 +39,38 @@ public class MainActivity extends AppCompatActivity {
             anim.start();
         }
 
-        Button btnStrart = findViewById(R.id.btnStartRace);
-        btnStrart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, RaceActivity.class);
-                startActivity(intent);
-            }
+        Button btnStartRace = findViewById(R.id.btnStartRace);
+        btnStartRace.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, RaceActivity.class);
+
+            // --- Create a list of Bet objects ---
+            // TODO: Replace with actual user input from the Betting UI
+            ArrayList<Bet> userBets = new ArrayList<>();
+            userBets.add(new Bet(1, 1000f)); // User bets 1000 on Car 1
+            userBets.add(new Bet(2, 2000f)); // User bets 2500 on Car 3
+
+            intent.putParcelableArrayListExtra("userBets", userBets);
+            startActivity(intent);
         });
 
         Button btnRecharge = findViewById(R.id.btnRecharge);
-        btnRecharge.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, TopUpActivity.class);
-                startActivity(intent);
-            }
+        btnRecharge.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, TopUpActivity.class);
+            startActivity(intent);
         });
 
-        loadAndDisplayBalance(); // Load balance when activity is created
+        loadAndDisplayBalance();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        loadAndDisplayBalance(); // Reload balance when activity resumes (e.g., after returning from TopUpActivity)
+        loadAndDisplayBalance();
     }
 
     private void loadAndDisplayBalance() {
         if (sharedPreferences != null && textViewMainBalanceValue != null) {
             float currentBalance = sharedPreferences.getFloat(BALANCE_KEY, 0f);
-            // Format to show as currency, e.g., Số dư: 50,000đ
-            // The TextView in activity_main.xml already has "Số dư: " in its text, 
-            // so we might only want to set the value, or adjust the text here accordingly.
-            // For now, keeping the format consistent with TopUpActivity's balance display, prepending "Số dư: ".
             textViewMainBalanceValue.setText(String.format("Số dư: %,.0fđ", currentBalance));
         }
     }

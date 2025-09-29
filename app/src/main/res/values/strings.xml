@@ -25,4 +25,12 @@
     <string name="dialog_title_payment_success">Thanh toán thành công</string>
     <string name="dialog_message_payment_success">Giao dịch nạp tiền của quý khách đã thành công. Số dư của bạn đã được cập nhật.</string>
     <string name="dialog_button_close">Đóng</string>
+
+    <!-- Strings for ResultActivity -->
+    <string name="result_icon_description">Result icon (trophy or sad face)</string>
+    <string name="placeholder_winner_text">Xe 1 về đích!</string>
+    <string name="placeholder_result_text">Bạn đã thắng cược!</string>
+    <string name="wallet_icon_description">Wallet icon</string>
+    <string name="placeholder_balance_text">Số dư hiện tại: 0đ</string>
+    <string name="play_again_button">Chơi lại</string>
 </resources>
