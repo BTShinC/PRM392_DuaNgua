@@ -24,7 +24,7 @@
             android:id="@+id/tvUsername"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Người chơi: player1"
+            android:text="Người chơi: player1" 
             android:textColor="@android:color/white"
             android:textStyle="bold"/>
 
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_weight="1"
-            android:text="Số dư: 1000$"
+            android:text="Số dư: 1000đ" 
             android:textColor="#A3FF5A"
             android:textStyle="bold"/>
     </LinearLayout>
@@ -51,12 +51,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Background đường đua -->
+        <!-- Đường đua cuộn - Hình ảnh 1 -->
         <ImageView
-            android:id="@+id/imgBackground"
+            android:id="@+id/trackImage1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/duong_dua"
+            android:src="@drawable/duong_dua" 
+            android:scaleType="fitXY" />
+
+        <!-- Đường đua cuộn - Hình ảnh 2 -->
+        <ImageView
+            android:id="@+id/trackImage2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/duong_dua" 
             android:scaleType="fitXY" />
 
         <!-- Xe 1 -->
