@@ -67,7 +67,7 @@
             android:textColor="@android:color/white"
             android:textStyle="bold"/>
 
-        <!-- Ví dụ 2 xe, bạn nhân bản thêm -->
+        <!-- Xe 1 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -93,6 +93,7 @@
                 android:textColorHint="#B3FFFFFF"/>
         </LinearLayout>
 
+        <!-- Xe 2 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -118,6 +119,32 @@
                 android:textColorHint="#B3FFFFFF"/>
         </LinearLayout>
 
+        <!-- Xe 3 - MỚI THÊM -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingTop="6dp">
+
+            <ImageView
+                android:id="@+id/icCar3"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:src="@drawable/xe_3_2" 
+                android:contentDescription="Xe 3"/>
+
+            <EditText
+                android:id="@+id/edtBetCar3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:hint="Tiền cược xe 3"
+                android:inputType="number"
+                android:textColor="@android:color/white"
+                android:textColorHint="#B3FFFFFF"/>
+        </LinearLayout>
+
     </LinearLayout>
 
     <!-- Khu đua xe -->
@@ -128,7 +155,7 @@
         android:layout_margin="12dp"
         android:background="@drawable/card_glass"
         app:layout_constraintTop_toBottomOf="@id/bettingArea"
-        app:layout_constraintBottom_toTopOf="@id/footer"
+        app:layout_constraintBottom_toTopOf="@+id/footer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -147,6 +174,15 @@
             android:layout_alignParentStart="true"
             android:layout_marginTop="120dp"
             android:src="@drawable/car_white"/>
+        
+        <ImageView
+            android:id="@+id/imgCar3"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="204dp" 
+            android:src="@drawable/xe_3_2"/>
+        
     </RelativeLayout>
 
     <!-- Footer -->
@@ -178,6 +214,8 @@
             android:textColor="@android:color/white"
             style="@style/PrimaryButton"
             android:background="@drawable/bg_drawable"/>
+        
+        
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
