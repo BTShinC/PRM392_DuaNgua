@@ -130,7 +130,7 @@
                 android:id="@+id/icCar3"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
-                android:src="@drawable/xe_3_2" 
+                android:src="@drawable/xe_3_2"
                 android:contentDescription="Xe 3"/>
 
             <EditText
