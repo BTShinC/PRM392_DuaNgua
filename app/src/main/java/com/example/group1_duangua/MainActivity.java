@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -56,6 +55,12 @@ public class MainActivity extends AppCompatActivity {
         Button btnRecharge = findViewById(R.id.btnRecharge);
         btnRecharge.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, TopUpActivity.class);
+            startActivity(intent);
+        });
+
+        Button btnStatistic = findViewById(R.id.btnStatistics);
+        btnStatistic.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
             startActivity(intent);
         });
 
