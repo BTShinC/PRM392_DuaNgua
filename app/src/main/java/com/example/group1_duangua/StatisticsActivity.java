@@ -18,8 +18,11 @@ import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,29 +60,24 @@ public class StatisticsActivity extends AppCompatActivity {
     }
 
     private void loadHistoryFromFile() {
-        String json = loadJSONFromAsset("bet_history.json");
-
         Gson gson = new Gson();
-        Type type = new TypeToken<List<BetHistory>>(){}.getType();
-        historyList = gson.fromJson(json, type);
+        Type type = new TypeToken<List<BetHistory>>() {}.getType();
 
-        if (historyList == null) historyList = new ArrayList<>();
-    }
-
-    private String loadJSONFromAsset(String filename) {
-        String json = null;
-        try {
-            InputStream is = getAssets().open(filename);
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
+        File file = new File(getFilesDir(), "bet_history.json");
+        if (file.exists()) {
+            try {
+                FileInputStream fis = new FileInputStream(file);
+                InputStreamReader isr = new InputStreamReader(fis);
+                historyList = gson.fromJson(isr, type);
+                isr.close();
+                fis.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                historyList = new ArrayList<>();
+            }
+        } else {
+            historyList = new ArrayList<>();
         }
-        return json;
     }
 
     private void setupPieChart() {

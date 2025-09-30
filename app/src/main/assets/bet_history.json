@@ -1,20 +1,2 @@
 [
-  {
-    "carName": "Xe số 1",
-    "amount": 1000,
-    "isWin": true,
-    "time": "2025-09-25 14:30:00"
-  },
-  {
-    "carName": "Xe số 2",
-    "amount": 2000,
-    "isWin": false,
-    "time": "2025-09-26 10:15:00"
-  },
-  {
-    "carName": "Xe số 3",
-    "amount": 1500,
-    "isWin": true,
-    "time": "2025-09-26 17:45:00"
-  }
 ]

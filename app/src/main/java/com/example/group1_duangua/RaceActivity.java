@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -16,7 +17,19 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
@@ -217,6 +230,8 @@ public class RaceActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        updateBetHistoryJson(winnerCar);
+
         Intent intent = new Intent(RaceActivity.this, ResultActivity.class);
         intent.putExtra("winnerCar", winnerCar);
         intent.putParcelableArrayListExtra("userBets", userBets);
@@ -268,4 +283,66 @@ public class RaceActivity extends AppCompatActivity {
         stopAndRelease(racingPlayer);
         stopAndRelease(crowdPlayer);
     }
+
+    private void updateBetHistoryJson(int winnerCar) {
+        Gson gson = new Gson();
+        String expectedCarName = "Xe số " + winnerCar;
+        ArrayList<BetHistory> userBets = getIntent().getParcelableArrayListExtra("betHistories");
+
+        try {
+            // Cập nhật trạng thái thắng
+            for (BetHistory userBet : userBets) {
+                if (userBet.getCarName().equals(expectedCarName)) {
+                    userBet.setWin(true);
+                }
+            }
+
+            File file = new File(getFilesDir(), "bet_history.json");
+
+            // Đọc dữ liệu cũ từ internal storage (KHÔNG phải assets)
+            List<BetHistory> historyList;
+            if (file.exists()) {
+                FileInputStream fis = new FileInputStream(file);
+                InputStreamReader isr = new InputStreamReader(fis);
+                Type type = new TypeToken<List<BetHistory>>() {}.getType();
+                historyList = gson.fromJson(isr, type);
+                isr.close();
+                fis.close();
+            } else {
+                historyList = new ArrayList<>();
+            }
+
+            // Gộp dữ liệu mới
+            historyList.addAll(userBets);
+
+            // Lưu lại file JSON
+            FileOutputStream fos = new FileOutputStream(file);
+            OutputStreamWriter osw = new OutputStreamWriter(fos);
+            gson.toJson(historyList, osw);
+            osw.flush();
+            osw.close();
+            fos.close();
+
+            Log.d("DEBUG_JSON", "Updated bet_history.json successfully!");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+//    private String loadJSONFromAsset(String filename) {
+//        String json = null;
+//        try {
+//            InputStream is = getAssets().open(filename);
+//            int size = is.available();
+//            byte[] buffer = new byte[size];
+//            is.read(buffer);
+//            is.close();
+//            json = new String(buffer, "UTF-8");
+//        } catch (IOException ex) {
+//            ex.printStackTrace();
+//            return null;
+//        }
+//        return json;
+//    }
 }
