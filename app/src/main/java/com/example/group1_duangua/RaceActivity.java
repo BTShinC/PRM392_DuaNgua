@@ -1,10 +1,10 @@
 package com.example.group1_duangua;
 
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -37,38 +38,32 @@ public class RaceActivity extends AppCompatActivity {
 
     private MediaPlayer raceBeepPlayer, idlePlayer, racingPlayer, crowdPlayer;
     private SeekBar seekCar1, seekCar2, seekCar3;
+    private VideoView videoViewTrack;
     private final Handler handler = new Handler();
     private final Random random = new Random();
     private boolean raceFinished = false;
+    private int currentVideoPosition = 0;
 
-    // --- Data from Betting screen ---
     private ArrayList<Bet> userBets;
 
-    // For track animation
-    private ImageView trackImage1, trackImage2;
-    private ValueAnimator trackAnimator;
-    private RelativeLayout raceArea;
-    private int trackRenderWidth = 0;
-
-    // For balance display
-    private TextView tvRaceBalance; // TextView for displaying balance in RaceActivity
+    private TextView tvRaceBalance;
     private SharedPreferences sharedPreferences;
-    public static final String SHARED_PREFS_NAME = "MyPrefs"; // Ensure this matches other activities
-    public static final String BALANCE_KEY = "balance";     // Ensure this matches other activities
+    public static final String SHARED_PREFS_NAME = "MyPrefs";
+    public static final String BALANCE_KEY = "balance";
 
     private final Runnable runCarsRunnable = new Runnable() {
         @Override
         public void run() {
             if (raceFinished) return;
 
-            seekCar1.setProgress(Math.min(100, seekCar1.getProgress() + random.nextInt(5)));
-            seekCar2.setProgress(Math.min(100, seekCar2.getProgress() + random.nextInt(5)));
-            seekCar3.setProgress(Math.min(100, seekCar3.getProgress() + random.nextInt(5)));
+            seekCar1.setProgress(Math.min(100, seekCar1.getProgress() + random.nextInt(4)));
+            seekCar2.setProgress(Math.min(100, seekCar2.getProgress() + random.nextInt(4)));
+            seekCar3.setProgress(Math.min(100, seekCar3.getProgress() + random.nextInt(4)));
 
             if (seekCar1.getProgress() >= 100) finishRace(1);
             else if (seekCar2.getProgress() >= 100) finishRace(2);
             else if (seekCar3.getProgress() >= 100) finishRace(3);
-            else handler.postDelayed(this, 100); 
+            else handler.postDelayed(this, 150);
         }
     };
 
@@ -77,18 +72,12 @@ public class RaceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_race);
 
-        // Initialize SharedPreferences
         sharedPreferences = getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE);
-
-        // Bind balance TextView (ID in activity_race.xml is tvBalance)
         tvRaceBalance = findViewById(R.id.tvBalance);
-        // loadAndDisplayBalance(); // Called in onResume which is also called after onCreate
 
-        // --- Get bet data from Intent ---
         Intent intent = getIntent();
         userBets = intent.getParcelableArrayListExtra("userBets");
 
-        // --- Bind UI for cars ---
         seekCar1 = findViewById(R.id.seekCar1);
         seekCar2 = findViewById(R.id.seekCar2);
         seekCar3 = findViewById(R.id.seekCar3);
@@ -101,58 +90,82 @@ public class RaceActivity extends AppCompatActivity {
         seekCar2.setProgress(0);
         seekCar3.setProgress(0);
 
-        // Initialize track views for animation
-        trackImage1 = findViewById(R.id.trackImage1);
-        trackImage2 = findViewById(R.id.trackImage2);
-        raceArea = findViewById(R.id.raceArea);
-
-        raceArea.post(new Runnable() {
-            @Override
-            public void run() {
-                trackRenderWidth = raceArea.getWidth();
-                if (trackRenderWidth > 0) {
-                    setupTrackAnimator(trackRenderWidth);
-                }
+        videoViewTrack = findViewById(R.id.videoViewTrack);
+        String videoPath = "android.resource://" + getPackageName() + "/" + R.raw.racetrack;
+        Uri videoUri = Uri.parse(videoPath);
+        videoViewTrack.setVideoURI(videoUri);
+        videoViewTrack.setOnPreparedListener(mp -> {
+            mp.setLooping(true);
+            // Do NOT start video here. Video starts when cars move.
+            // Call startBeepAndIdle directly after video is prepared.
+            if (!isFinishing()) {
+                 startBeepAndIdle();
             }
         });
-
-        startBeepAndIdle();
+        videoViewTrack.setOnErrorListener((mp, what, extra) -> {
+            Toast.makeText(RaceActivity.this, "Không thể tải video đường đua", Toast.LENGTH_SHORT).show();
+            if (!isFinishing()) {
+                // Fallback to start sound sequence immediately if video fails
+                startBeepAndIdle();
+            }
+            return true;
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        loadAndDisplayBalance(); // Reload balance when activity resumes
+        loadAndDisplayBalance();
+        if (videoViewTrack != null) {
+            if (currentVideoPosition > 0 && !videoViewTrack.isPlaying()) {
+                videoViewTrack.seekTo(currentVideoPosition);
+                videoViewTrack.start();
+            }
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (videoViewTrack != null && videoViewTrack.isPlaying()) {
+            currentVideoPosition = videoViewTrack.getCurrentPosition();
+            videoViewTrack.pause();
+        }
+        handler.removeCallbacksAndMessages(null);
+        raceFinished = true;
+
+        stopAndRelease(raceBeepPlayer); raceBeepPlayer = null;
+        stopAndRelease(idlePlayer); idlePlayer = null;
+        stopAndRelease(racingPlayer); racingPlayer = null;
+        stopAndRelease(crowdPlayer); crowdPlayer = null;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (videoViewTrack != null) {
+            videoViewTrack.stopPlayback();
+            videoViewTrack = null;
+        }
+        handler.removeCallbacksAndMessages(null);
+        stopAndRelease(raceBeepPlayer);
+        stopAndRelease(idlePlayer);
+        stopAndRelease(racingPlayer);
+        stopAndRelease(crowdPlayer);
     }
 
     private void loadAndDisplayBalance() {
         if (sharedPreferences != null && tvRaceBalance != null) {
             float currentBalance = sharedPreferences.getFloat(BALANCE_KEY, 0f);
-            // Ensure tvBalance is correctly identified and is the one in RaceActivity's layout
             tvRaceBalance.setText(String.format(Locale.getDefault(), "Số dư: %,.0fđ", currentBalance));
         }
     }
 
-    private void setupTrackAnimator(final int trackWidth) {
-        if (trackAnimator != null) {
-            trackAnimator.cancel();
-        }
-        trackAnimator = ValueAnimator.ofFloat(0.0f, (float) trackWidth);
-        trackAnimator.setRepeatCount(ValueAnimator.INFINITE);
-        trackAnimator.setInterpolator(new LinearInterpolator());
-        trackAnimator.setDuration(10000); // 10 seconds for one full scroll
-
-        trackAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float value = (float) animation.getAnimatedValue();
-                trackImage1.setTranslationX(-value);
-                trackImage2.setTranslationX(-value + trackWidth);
-            }
-        });
-    }
-
     private void startBeepAndIdle() {
+        if (isFinishing() || raceFinished || (racingPlayer != null && racingPlayer.isPlaying()) || (raceBeepPlayer != null && raceBeepPlayer.isPlaying())) {
+            return;
+        }
+
         try {
             idlePlayer = MediaPlayer.create(this, R.raw.race_car_idle);
             if (idlePlayer != null) {
@@ -176,12 +189,18 @@ public class RaceActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
             stopAndRelease(idlePlayer);
+            idlePlayer = null;
             stopAndRelease(raceBeepPlayer);
+            raceBeepPlayer = null;
             startRacingSoundAndRun();
         }
     }
 
     private void startRacingSoundAndRun() {
+        if (isFinishing() || raceFinished) {
+            return;
+        }
+
         try {
             racingPlayer = MediaPlayer.create(this, R.raw.racing_f1);
             if (racingPlayer != null) {
@@ -193,18 +212,19 @@ public class RaceActivity extends AppCompatActivity {
         }
 
         runOnUiThread(() -> {
+            if (isFinishing() || raceFinished) return;
+
+            // Start video when cars are about to move
+            if (videoViewTrack != null && !videoViewTrack.isPlaying()) {
+                videoViewTrack.start();
+            }
+
             seekCar1.setProgress(0);
             seekCar2.setProgress(0);
             seekCar3.setProgress(0);
             raceFinished = false;
-            handler.postDelayed(runCarsRunnable, 100);
+            handler.postDelayed(runCarsRunnable, 10);
             Toast.makeText(RaceActivity.this, "Cuộc đua bắt đầu!", Toast.LENGTH_SHORT).show();
-
-            if (trackAnimator != null && !trackAnimator.isRunning() && trackRenderWidth > 0) {
-                trackImage1.setTranslationX(0f); 
-                trackImage2.setTranslationX(trackRenderWidth);
-                trackAnimator.start();
-            }
         });
     }
 
@@ -213,30 +233,26 @@ public class RaceActivity extends AppCompatActivity {
         raceFinished = true;
 
         handler.removeCallbacks(runCarsRunnable);
-
-        if (trackAnimator != null && trackAnimator.isRunning()) {
-            trackAnimator.cancel();
-        }
-
-        stopAndRelease(racingPlayer);
+        stopAndRelease(racingPlayer); racingPlayer = null;
 
         try {
             crowdPlayer = MediaPlayer.create(this, R.raw.crowd_cheers);
             if (crowdPlayer != null) {
                 crowdPlayer.start();
-                crowdPlayer.setOnCompletionListener(MediaPlayer::release); 
+                crowdPlayer.setOnCompletionListener(MediaPlayer::release);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        updateBetHistoryJson(winnerCar);
-
-        Intent intent = new Intent(RaceActivity.this, ResultActivity.class);
-        intent.putExtra("winnerCar", winnerCar);
-        intent.putParcelableArrayListExtra("userBets", userBets);
-        startActivity(intent);
-        finish();
+        if (!isFinishing()) {
+            updateBetHistoryJson(winnerCar);
+            Intent intent = new Intent(RaceActivity.this, ResultActivity.class);
+            intent.putExtra("winnerCar", winnerCar);
+            intent.putParcelableArrayListExtra("userBets", userBets);
+            startActivity(intent);
+            finish();
+        }
     }
 
     private void stopAndRelease(MediaPlayer mp) {
@@ -250,38 +266,6 @@ public class RaceActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (trackAnimator != null && trackAnimator.isRunning()) {
-            trackAnimator.cancel();
-        }
-        handler.removeCallbacks(runCarsRunnable);
-        raceFinished = true;
-        stopAndRelease(raceBeepPlayer);
-        raceBeepPlayer = null;
-        stopAndRelease(idlePlayer);
-        idlePlayer = null;
-        stopAndRelease(racingPlayer);
-        racingPlayer = null;
-        stopAndRelease(crowdPlayer);
-        crowdPlayer = null;
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (trackAnimator != null) {
-            trackAnimator.cancel();
-            trackAnimator = null;
-        }
-        handler.removeCallbacksAndMessages(null);
-        stopAndRelease(raceBeepPlayer);
-        stopAndRelease(idlePlayer);
-        stopAndRelease(racingPlayer);
-        stopAndRelease(crowdPlayer);
     }
 
     private void updateBetHistoryJson(int winnerCar) {
@@ -329,20 +313,4 @@ public class RaceActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
-//    private String loadJSONFromAsset(String filename) {
-//        String json = null;
-//        try {
-//            InputStream is = getAssets().open(filename);
-//            int size = is.available();
-//            byte[] buffer = new byte[size];
-//            is.read(buffer);
-//            is.close();
-//            json = new String(buffer, "UTF-8");
-//        } catch (IOException ex) {
-//            ex.printStackTrace();
-//            return null;
-//        }
-//        return json;
-//    }
 }

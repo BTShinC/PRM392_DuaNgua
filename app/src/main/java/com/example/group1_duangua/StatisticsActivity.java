@@ -24,8 +24,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class StatisticsActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -71,6 +75,23 @@ public class StatisticsActivity extends AppCompatActivity {
                 historyList = gson.fromJson(isr, type);
                 isr.close();
                 fis.close();
+
+                if (historyList == null) {
+                    historyList = new ArrayList<>();
+                }
+
+                // Sort: mới nhất lên đầu
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
+                Collections.sort(historyList, (a, b) -> {
+                    try {
+                        Date dateA = sdf.parse(a.getTime());
+                        Date dateB = sdf.parse(b.getTime());
+                        return dateB.compareTo(dateA); // mới nhất đứng đầu
+                    } catch (Exception e) {
+                        return 0;
+                    }
+                });
+
             } catch (Exception e) {
                 e.printStackTrace();
                 historyList = new ArrayList<>();

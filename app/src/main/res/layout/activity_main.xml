@@ -78,7 +78,7 @@
                 android:id="@+id/icCar1"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
-                android:src="@drawable/car_red"
+                android:src="@drawable/xe_do"
                 android:contentDescription="Xe 1"/>
 
             <EditText
@@ -104,7 +104,7 @@
                 android:id="@+id/icCar2"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
-                android:src="@drawable/car_white"
+                android:src="@drawable/xe_nau"
                 android:contentDescription="Xe 2"/>
 
             <EditText
@@ -130,7 +130,7 @@
                 android:id="@+id/icCar3"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
-                android:src="@drawable/xe_3_2" 
+                android:src="@drawable/xe_xanh"
                 android:contentDescription="Xe 3"/>
 
             <EditText
@@ -161,27 +161,30 @@
 
         <ImageView
             android:id="@+id/imgCar1"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="36dp"
-            android:src="@drawable/car_red"/>
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/xe_do"/>
 
         <ImageView
             android:id="@+id/imgCar2"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="120dp"
-            android:src="@drawable/car_white"/>
+            android:layout_below="@id/imgCar1"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/xe_nau"/>
         
         <ImageView
             android:id="@+id/imgCar3"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="204dp" 
-            android:src="@drawable/xe_3_2"/>
+            android:layout_below="@id/imgCar2"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/xe_xanh"/>
         
     </RelativeLayout>
 
