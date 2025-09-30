@@ -119,7 +119,7 @@
                 android:textColorHint="#B3FFFFFF"/>
         </LinearLayout>
 
-        <!-- Xe 3 - MỚI THÊM -->
+        <!-- Xe 3 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -130,7 +130,7 @@
                 android:id="@+id/icCar3"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
-                android:src="@drawable/xe_3_2" 
+                android:src="@drawable/car_blue"
                 android:contentDescription="Xe 3"/>
 
             <EditText
@@ -144,7 +144,6 @@
                 android:textColor="@android:color/white"
                 android:textColorHint="#B3FFFFFF"/>
         </LinearLayout>
-
     </LinearLayout>
 
     <!-- Khu đua xe -->
@@ -155,7 +154,7 @@
         android:layout_margin="12dp"
         android:background="@drawable/card_glass"
         app:layout_constraintTop_toBottomOf="@id/bettingArea"
-        app:layout_constraintBottom_toTopOf="@+id/footer"
+        app:layout_constraintBottom_toTopOf="@id/footer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -174,15 +173,14 @@
             android:layout_alignParentStart="true"
             android:layout_marginTop="120dp"
             android:src="@drawable/car_white"/>
-        
+
         <ImageView
             android:id="@+id/imgCar3"
             android:layout_width="80dp"
             android:layout_height="40dp"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="204dp" 
-            android:src="@drawable/xe_3_2"/>
-        
+            android:layout_marginTop="200dp"
+            android:src="@drawable/car_blue"/>
     </RelativeLayout>
 
     <!-- Footer -->
@@ -214,8 +212,6 @@
             android:textColor="@android:color/white"
             style="@style/PrimaryButton"
             android:background="@drawable/bg_drawable"/>
-        
-        
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
