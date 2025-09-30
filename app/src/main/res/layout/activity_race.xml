@@ -44,63 +44,67 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="12dp"
-        android:background="@drawable/card_glass"
-        android:clipChildren="true"
+        android:background="@drawable/card_glass" 
         app:layout_constraintTop_toBottomOf="@id/header"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Đường đua cuộn - Hình ảnh 1 -->
-        <ImageView
-            android:id="@+id/trackImage1"
+        <!-- Video Đường đua -->
+        <VideoView
+            android:id="@+id/videoViewTrack"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/duong_dua"
-            android:scaleType="fitXY" />
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true" />
 
-        <!-- Đường đua cuộn - Hình ảnh 2 -->
-        <ImageView
-            android:id="@+id/trackImage2"
-            android:layout_width="match_parent"
+        <!-- Vạch Đích -->
+        <View
+            android:id="@+id/finishLine"
+            android:layout_width="4dp"
             android:layout_height="match_parent"
-            android:src="@drawable/duong_dua"
-            android:scaleType="fitXY" />
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="80dp"
+            android:background="@android:color/white" />
 
-        <!-- Xe 1 -->
-        <SeekBar
-            android:id="@+id/seekCar1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="120dp"
-            android:max="100"
-            android:progress="0"
-            android:progressDrawable="@android:color/transparent"
-            android:thumb="@drawable/xe_1_1"/>
-
-        <!-- Xe 2 -->
-        <SeekBar
-            android:id="@+id/seekCar2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/seekCar1"
-            android:layout_marginTop="0dp"
-            android:max="100"
-            android:progress="0"
-            android:progressDrawable="@android:color/transparent"
-            android:thumb="@drawable/xe_2_1"/>
-
-        <!-- Xe 3 -->
+        <!-- Xe 3 (Làn dưới cùng - xe_xanh) -->
         <SeekBar
             android:id="@+id/seekCar3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/seekCar2"
-            android:layout_marginTop="0dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="4dp"
             android:max="100"
             android:progress="0"
             android:progressDrawable="@android:color/transparent"
-            android:thumb="@drawable/xe_3_1"/>
+            android:thumb="@drawable/xe_xanh"/>
+
+        <!-- Xe 2 (Làn giữa - xe_nau) -->
+        <SeekBar
+            android:id="@+id/seekCar2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/seekCar3"
+            android:layout_marginBottom="4dp"
+            android:max="100"
+            android:progress="0"
+            android:progressDrawable="@android:color/transparent"
+            android:thumb="@drawable/xe_nau"/>
+
+        <!-- Xe 1 (Làn trên cùng - xe_do) -->
+        <SeekBar
+            android:id="@+id/seekCar1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/seekCar2"
+            android:layout_marginBottom="4dp"
+            android:max="100"
+            android:progress="0"
+            android:progressDrawable="@android:color/transparent"
+            android:thumb="@drawable/xe_do"/>
+
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
