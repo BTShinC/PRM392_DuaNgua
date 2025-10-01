@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="24dp"
-    android:background="@drawable/backgroud"
+    android:background="@drawable/background_login"
     tools:context=".MainLoginActivity">
 
     <TextView
@@ -27,13 +27,81 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+    <Button
+        android:id="@+id/btnStart"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+        android:text="START 🚀"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:background="@drawable/bg_start_button"
+        app:backgroundTint="@null"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/carPager"
+        android:layout_width="232dp"
+        android:layout_height="78dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnStart" />
+    <!-- Ảnh bên trái -->
+    <ImageView
+        android:id="@+id/imgLeft"
+        android:layout_width="176dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="8dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/car5"
+        app:layout_constraintBottom_toBottomOf="@id/carPager"
+        app:layout_constraintEnd_toStartOf="@id/carPager"
+        app:layout_constraintTop_toTopOf="@id/carPager" />
+
+    <!-- Ảnh bên phải -->
+    <ImageView
+        android:id="@+id/imgRight"
+        android:layout_width="176dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="8dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/car1"
+        app:layout_constraintBottom_toBottomOf="@id/carPager"
+        app:layout_constraintStart_toEndOf="@id/carPager"
+        app:layout_constraintTop_toTopOf="@id/carPager" />
+
+    <TextView
+        android:id="@+id/tvMarquee"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="🏎️ Chào mừng đến với giải đua F1! Chuẩn bị tăng tốc nào! 🏁 🏎️ Chào mừng đến với giải đua F1! Chuẩn bị tăng tốc nào! 🏁"
+        android:textColor="#FF3D00"
+        android:textSize="16sp"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:scrollHorizontally="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:padding="5dp"
+        app:layout_constraintTop_toBottomOf="@id/carPager"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
     <LinearLayout
         android:id="@+id/loginForm"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:visibility="gone"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="1dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="50dp"
         android:layout_marginBottom="32dp"
         android:background="@drawable/bg_login_form"
         android:orientation="vertical"
@@ -83,8 +151,8 @@
 
     <LinearLayout
         android:id="@+id/volumeControlLayout"
-        android:layout_width="364dp"
-        android:layout_height="29dp"
+        android:layout_width="218dp"
+        android:layout_height="30dp"
         android:gravity="center"
         android:orientation="horizontal"
         android:padding="8dp"
@@ -93,7 +161,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/loginForm"
-        app:layout_constraintVertical_bias="0.912">
+        app:layout_constraintVertical_bias="1.0">
 
         <ImageView
             android:id="@+id/ivVolumeDown"
@@ -103,8 +171,8 @@
 
         <SeekBar
             android:id="@+id/seekBarVolume"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="115dp"
+            android:layout_height="4dp"
             android:layout_weight="1"
             android:max="100"
             android:progress="50"
