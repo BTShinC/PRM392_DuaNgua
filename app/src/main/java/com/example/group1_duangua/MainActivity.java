@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,9 +19,22 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String SHARED_PREFS_NAME = "MyPrefs";
     public static final String BALANCE_KEY = "balance";
 
+    private ArrayList<BetHistory> betHistories = new ArrayList<>();
     private EditText edtBetCar1;
     private EditText edtBetCar2;
     private EditText edtBetCar3;
@@ -70,18 +85,39 @@ public class MainActivity extends AppCompatActivity {
             if (betAmountCar1 > 0) {
                 userBets.add(new Bet(1, betAmountCar1));
                 totalBetAmount += betAmountCar1;
+                betHistories.add(new BetHistory(
+                        "Xe số 1",
+                        betAmountCar1,
+                        false,
+                        new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
+                                .format(new Date())
+                ));
             }
 
             float betAmountCar2 = getBetAmountFromEditText(edtBetCar2);
             if (betAmountCar2 > 0) {
                 userBets.add(new Bet(2, betAmountCar2));
                 totalBetAmount += betAmountCar2;
+                betHistories.add(new BetHistory(
+                        "Xe số 2",
+                        betAmountCar2,
+                        false,
+                        new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
+                                .format(new Date())
+                ));
             }
 
             float betAmountCar3 = getBetAmountFromEditText(edtBetCar3);
             if (betAmountCar3 > 0) {
                 userBets.add(new Bet(3, betAmountCar3));
                 totalBetAmount += betAmountCar3;
+                betHistories.add(new BetHistory(
+                        "Xe số 3",
+                        betAmountCar3,
+                        false,
+                        new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
+                                .format(new Date())
+                ));
             }
 
             if (userBets.isEmpty()) {
@@ -92,11 +128,13 @@ public class MainActivity extends AppCompatActivity {
             float currentBalance = sharedPreferences.getFloat(BALANCE_KEY, 0f);
             if (totalBetAmount > currentBalance) {
                 Toast.makeText(MainActivity.this, "Số dư không đủ để đặt cược!", Toast.LENGTH_SHORT).show();
+                betHistories.clear();
                 return;
             }
 
             Intent intent = new Intent(MainActivity.this, RaceActivity.class);
             intent.putParcelableArrayListExtra("userBets", userBets);
+            intent.putParcelableArrayListExtra("betHistories", betHistories);
             startActivity(intent);
 
             if (edtBetCar1 != null) edtBetCar1.setText("");
@@ -107,6 +145,12 @@ public class MainActivity extends AppCompatActivity {
         Button btnRecharge = findViewById(R.id.btnRecharge);
         btnRecharge.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, TopUpActivity.class);
+            startActivity(intent);
+        });
+
+        Button btnStatistic = findViewById(R.id.btnStatistics);
+        btnStatistic.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
             startActivity(intent);
         });
 
@@ -161,12 +205,12 @@ public class MainActivity extends AppCompatActivity {
             return 0f;
         }
         // Loại bỏ dấu phẩy để parse
-        String cleanString = betText.replaceAll("[\\,]", ""); 
+        String cleanString = betText.replaceAll("[\\,]", "");
         try {
             float amount = Float.parseFloat(cleanString);
-            return Math.max(0, amount); 
+            return Math.max(0, amount);
         } catch (NumberFormatException e) {
-            return 0f; 
+            return 0f;
         }
     }
 
@@ -179,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
     private void loadAndDisplayBalance() {
         if (sharedPreferences != null && textViewMainBalanceValue != null) {
             float currentBalance = sharedPreferences.getFloat(BALANCE_KEY, 0f);
-            textViewMainBalanceValue.setText(String.format(Locale.getDefault(), "Số dư: %,.0fđ", currentBalance));
+            textViewMainBalanceValue.setText(String.format("Số dư: %,.0fđ", currentBalance));
         }
     }
 }
