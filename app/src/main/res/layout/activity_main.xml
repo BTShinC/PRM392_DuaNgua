@@ -148,7 +148,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="🔴 XE ĐỎ"
+                            android:text="🔴 XE 1"
                             android:textColor="#FF5252"
                             android:textStyle="bold"
                             android:textSize="11sp"
@@ -208,7 +208,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="🟤 XE NÂU"
+                            android:text="🟤 XE 2"
                             android:textColor="#FF6F00"
                             android:textStyle="bold"
                             android:textSize="11sp"
@@ -268,7 +268,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="🔵 XE XANH"
+                            android:text="🔵 XE 3"
                             android:textColor="#00BCD4"
                             android:textStyle="bold"
                             android:textSize="11sp"
