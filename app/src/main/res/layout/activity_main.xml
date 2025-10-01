@@ -21,6 +21,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
+        <!-- Nút Back -->
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/btn_back_bg"
+            android:src="@android:drawable/ic_menu_revert"
+            android:contentDescription="Quay lại"
+            app:tint="@android:color/white"
+            android:scaleType="centerInside"
+            android:padding="8dp"
+            android:layout_marginEnd="12dp"/>
+
         <TextView
             android:id="@+id/tvUsername"
             android:layout_width="wrap_content"
@@ -39,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_weight="1"
-            android:text="Số dư: 1000VNĐ"
+            android:text="Số dư: 1000$"
             android:textColor="#FFD700"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -153,7 +166,7 @@
                             android:id="@+id/edtBetCar1"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:hint="Nhập VNĐ"
+                            android:hint="Nhập $"
                             android:inputType="number"
                             android:textColor="@android:color/white"
                             android:textColorHint="#80FFFFFF"
@@ -213,7 +226,7 @@
                             android:id="@+id/edtBetCar2"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:hint="Nhập VNĐ"
+                            android:hint="Nhập $"
                             android:inputType="number"
                             android:textColor="@android:color/white"
                             android:textColorHint="#80FFFFFF"
@@ -273,7 +286,7 @@
                             android:id="@+id/edtBetCar3"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:hint="Nhập VNĐ"
+                            android:hint="Nhập $"
                             android:inputType="number"
                             android:textColor="@android:color/white"
                             android:textColorHint="#80FFFFFF"
