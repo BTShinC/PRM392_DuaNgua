@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText edtBetCar2;
     private EditText edtBetCar3;
 
+    MediaPlayer mediaPlayer;
     private DecimalFormat formatter = new DecimalFormat("###,###");
 
     @Override
@@ -66,6 +68,11 @@ public class MainActivity extends AppCompatActivity {
         addThousandSeparatorTextWatcher(edtBetCar1);
         addThousandSeparatorTextWatcher(edtBetCar2);
         addThousandSeparatorTextWatcher(edtBetCar3);
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.music_header);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.setVolume(1.0f, 1.0f);
+        mediaPlayer.start();
 
         ConstraintLayout root = findViewById(R.id.mainLayout);
         Drawable bg = root.getBackground();
