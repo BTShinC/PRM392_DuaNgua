@@ -7,6 +7,10 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
+import android.view.animation.LinearInterpolator;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,7 +18,19 @@ import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
@@ -23,7 +39,7 @@ public class RaceActivity extends AppCompatActivity {
     private MediaPlayer raceBeepPlayer, idlePlayer, racingPlayer, crowdPlayer;
     private SeekBar seekCar1, seekCar2, seekCar3;
     private VideoView videoViewTrack;
-    private final Handler handler = new Handler(); 
+    private final Handler handler = new Handler();
     private final Random random = new Random();
     private boolean raceFinished = false;
     private int currentVideoPosition = 0;
@@ -47,7 +63,7 @@ public class RaceActivity extends AppCompatActivity {
             if (seekCar1.getProgress() >= 100) finishRace(1);
             else if (seekCar2.getProgress() >= 100) finishRace(2);
             else if (seekCar3.getProgress() >= 100) finishRace(3);
-            else handler.postDelayed(this, 150); 
+            else handler.postDelayed(this, 150);
         }
     };
 
@@ -82,7 +98,7 @@ public class RaceActivity extends AppCompatActivity {
             mp.setLooping(true);
             // Do NOT start video here. Video starts when cars move.
             // Call startBeepAndIdle directly after video is prepared.
-            if (!isFinishing()) { 
+            if (!isFinishing()) {
                  startBeepAndIdle();
             }
         });
@@ -90,7 +106,7 @@ public class RaceActivity extends AppCompatActivity {
             Toast.makeText(RaceActivity.this, "Không thể tải video đường đua", Toast.LENGTH_SHORT).show();
             if (!isFinishing()) {
                 // Fallback to start sound sequence immediately if video fails
-                startBeepAndIdle(); 
+                startBeepAndIdle();
             }
             return true;
         });
@@ -115,8 +131,8 @@ public class RaceActivity extends AppCompatActivity {
             currentVideoPosition = videoViewTrack.getCurrentPosition();
             videoViewTrack.pause();
         }
-        handler.removeCallbacksAndMessages(null); 
-        raceFinished = true; 
+        handler.removeCallbacksAndMessages(null);
+        raceFinished = true;
 
         stopAndRelease(raceBeepPlayer); raceBeepPlayer = null;
         stopAndRelease(idlePlayer); idlePlayer = null;
@@ -160,29 +176,29 @@ public class RaceActivity extends AppCompatActivity {
             raceBeepPlayer = MediaPlayer.create(this, R.raw.race_beep);
             if (raceBeepPlayer != null) {
                 raceBeepPlayer.setOnCompletionListener(mp -> {
-                    stopAndRelease(idlePlayer); 
+                    stopAndRelease(idlePlayer);
                     idlePlayer = null;
-                    startRacingSoundAndRun(); 
+                    startRacingSoundAndRun();
                 });
                 raceBeepPlayer.start();
             } else {
-                stopAndRelease(idlePlayer); 
+                stopAndRelease(idlePlayer);
                 idlePlayer = null;
-                startRacingSoundAndRun(); 
+                startRacingSoundAndRun();
             }
         } catch (Exception e) {
             e.printStackTrace();
-            stopAndRelease(idlePlayer); 
+            stopAndRelease(idlePlayer);
             idlePlayer = null;
-            stopAndRelease(raceBeepPlayer); 
+            stopAndRelease(raceBeepPlayer);
             raceBeepPlayer = null;
-            startRacingSoundAndRun(); 
+            startRacingSoundAndRun();
         }
     }
 
     private void startRacingSoundAndRun() {
-        if (isFinishing() || raceFinished) { 
-            return; 
+        if (isFinishing() || raceFinished) {
+            return;
         }
 
         try {
@@ -196,24 +212,24 @@ public class RaceActivity extends AppCompatActivity {
         }
 
         runOnUiThread(() -> {
-            if (isFinishing() || raceFinished) return; 
+            if (isFinishing() || raceFinished) return;
 
             // Start video when cars are about to move
             if (videoViewTrack != null && !videoViewTrack.isPlaying()) {
-                videoViewTrack.start(); 
+                videoViewTrack.start();
             }
-            
+
             seekCar1.setProgress(0);
             seekCar2.setProgress(0);
             seekCar3.setProgress(0);
-            raceFinished = false; 
-            handler.postDelayed(runCarsRunnable, 10); 
+            raceFinished = false;
+            handler.postDelayed(runCarsRunnable, 10);
             Toast.makeText(RaceActivity.this, "Cuộc đua bắt đầu!", Toast.LENGTH_SHORT).show();
         });
     }
 
     private synchronized void finishRace(int winnerCar) {
-        if (raceFinished) return; 
+        if (raceFinished) return;
         raceFinished = true;
 
         handler.removeCallbacks(runCarsRunnable);
@@ -230,6 +246,7 @@ public class RaceActivity extends AppCompatActivity {
         }
 
         if (!isFinishing()) {
+            updateBetHistoryJson(winnerCar);
             Intent intent = new Intent(RaceActivity.this, ResultActivity.class);
             intent.putExtra("winnerCar", winnerCar);
             intent.putParcelableArrayListExtra("userBets", userBets);
@@ -246,6 +263,52 @@ public class RaceActivity extends AppCompatActivity {
                 }
                 mp.release();
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateBetHistoryJson(int winnerCar) {
+        Gson gson = new Gson();
+        String expectedCarName = "Xe số " + winnerCar;
+        ArrayList<BetHistory> userBets = getIntent().getParcelableArrayListExtra("betHistories");
+
+        try {
+            // Cập nhật trạng thái thắng
+            for (BetHistory userBet : userBets) {
+                if (userBet.getCarName().equals(expectedCarName)) {
+                    userBet.setWin(true);
+                }
+            }
+
+            File file = new File(getFilesDir(), "bet_history.json");
+
+            // Đọc dữ liệu cũ từ internal storage (KHÔNG phải assets)
+            List<BetHistory> historyList;
+            if (file.exists()) {
+                FileInputStream fis = new FileInputStream(file);
+                InputStreamReader isr = new InputStreamReader(fis);
+                Type type = new TypeToken<List<BetHistory>>() {}.getType();
+                historyList = gson.fromJson(isr, type);
+                isr.close();
+                fis.close();
+            } else {
+                historyList = new ArrayList<>();
+            }
+
+            // Gộp dữ liệu mới
+            historyList.addAll(userBets);
+
+            // Lưu lại file JSON
+            FileOutputStream fos = new FileOutputStream(file);
+            OutputStreamWriter osw = new OutputStreamWriter(fos);
+            gson.toJson(historyList, osw);
+            osw.flush();
+            osw.close();
+            fos.close();
+
+            Log.d("DEBUG_JSON", "Updated bet_history.json successfully!");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
