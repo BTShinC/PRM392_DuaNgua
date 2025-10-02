@@ -7,17 +7,32 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_gradient_anim">
 
-    <!-- Header -->
+    <!-- Header compact cho landscape -->
     <LinearLayout
         android:id="@+id/header"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="#66000000"
+        android:background="@drawable/header_bg"
         android:orientation="horizontal"
-        android:padding="12dp"
+        android:padding="8dp"
+        android:elevation="8dp"
+        android:gravity="center_vertical"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Nút Back -->
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/btn_back_bg"
+            android:src="@android:drawable/ic_menu_revert"
+            android:contentDescription="Quay lại"
+            app:tint="@android:color/white"
+            android:scaleType="centerInside"
+            android:padding="8dp"
+            android:layout_marginEnd="12dp"/>
 
         <TextView
             android:id="@+id/tvUsername"
@@ -25,200 +40,311 @@
             android:layout_height="wrap_content"
             android:text="Người chơi: player1"
             android:textColor="@android:color/white"
-            android:textStyle="bold"/>
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:drawableStart="@android:drawable/ic_menu_myplaces"
+            android:drawablePadding="4dp"
+            android:drawableTint="#FFD700"/>
 
         <TextView
             android:id="@+id/tvBalance"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="12dp"
             android:layout_weight="1"
             android:text="Số dư: 1000$"
-            android:textColor="#A3FF5A"
-            android:textStyle="bold"/>
+            android:textColor="#FFD700"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:drawableStart="@android:drawable/btn_star_big_on"
+            android:drawablePadding="4dp"
+            android:drawableTint="#FFD700"/>
 
         <Button
             android:id="@+id/btnRecharge"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nạp tiền"
+            android:layout_height="40dp"
+            android:text="💳 NẠP"
             android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:textSize="12sp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:elevation="4dp"
             style="@style/PrimaryButton"
             android:background="@drawable/bg_drawable"/>
     </LinearLayout>
 
-    <!-- Khu đặt cược -->
-    <LinearLayout
+    <!-- Betting Area - Layout ngang cho landscape -->
+    <ScrollView
         android:id="@+id/bettingArea"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        android:background="@drawable/card_glass"
-        android:orientation="vertical"
-        android:padding="12dp"
-        app:layout_constraintTop_toBottomOf="@id/header"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Chọn xe và nhập tiền cược"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"/>
-
-        <!-- Xe 1 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:paddingTop="6dp">
-
-            <ImageView
-                android:id="@+id/icCar1"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:src="@drawable/xe_do"
-                android:contentDescription="Xe 1"/>
-
-            <EditText
-                android:id="@+id/edtBetCar1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_weight="1"
-                android:hint="Tiền cược xe 1"
-                android:inputType="number"
-                android:textColor="@android:color/white"
-                android:textColorHint="#B3FFFFFF"/>
-        </LinearLayout>
-
-        <!-- Xe 2 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:paddingTop="6dp">
-
-            <ImageView
-                android:id="@+id/icCar2"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:src="@drawable/xe_nau"
-                android:contentDescription="Xe 2"/>
-
-            <EditText
-                android:id="@+id/edtBetCar2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_weight="1"
-                android:hint="Tiền cược xe 2"
-                android:inputType="number"
-                android:textColor="@android:color/white"
-                android:textColorHint="#B3FFFFFF"/>
-        </LinearLayout>
-
-        <!-- Xe 3 - MỚI THÊM -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:paddingTop="6dp">
-
-            <ImageView
-                android:id="@+id/icCar3"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:src="@drawable/xe_xanh"
-                android:contentDescription="Xe 3"/>
-
-            <EditText
-                android:id="@+id/edtBetCar3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_weight="1"
-                android:hint="Tiền cược xe 3"
-                android:inputType="number"
-                android:textColor="@android:color/white"
-                android:textColorHint="#B3FFFFFF"/>
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <!-- Khu đua xe -->
-    <RelativeLayout
-        android:id="@+id/raceArea"
-        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="12dp"
-        android:background="@drawable/card_glass"
-        app:layout_constraintTop_toBottomOf="@id/bettingArea"
-        app:layout_constraintBottom_toTopOf="@+id/footer"
+        android:layout_margin="8dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/header"
+        app:layout_constraintBottom_toTopOf="@id/footer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <ImageView
-            android:id="@+id/imgCar1"
-            android:layout_width="60dp"
-            android:layout_height="30dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="15dp"
-            android:src="@drawable/xe_do"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/card_glass"
+            android:orientation="vertical"
+            android:padding="12dp"
+            android:elevation="6dp">
 
-        <ImageView
-            android:id="@+id/imgCar2"
-            android:layout_width="60dp"
-            android:layout_height="30dp"
-            android:layout_alignParentStart="true"
-            android:layout_below="@id/imgCar1"
-            android:layout_marginTop="15dp"
-            android:src="@drawable/xe_nau"/>
-        
-        <ImageView
-            android:id="@+id/imgCar3"
-            android:layout_width="60dp"
-            android:layout_height="30dp"
-            android:layout_alignParentStart="true"
-            android:layout_below="@id/imgCar2"
-            android:layout_marginTop="15dp"
-            android:src="@drawable/xe_xanh"/>
-        
-    </RelativeLayout>
+            <!-- Title compact -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🏁 CHỌN XE ĐUA CỦA BẠN"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:paddingBottom="8dp"/>
 
-    <!-- Footer -->
+            <!-- Divider -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#33FFFFFF"
+                android:layout_marginBottom="8dp"/>
+
+            <!-- Grid layout 3 cột cho xe khi ngang màn hình -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <!-- Xe 1 - Red Racing Car -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="4dp"
+                    app:cardBackgroundColor="#33FF5252"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="4dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="8dp">
+
+                        <ImageView
+                            android:id="@+id/icCar1"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:src="@drawable/xe_do"
+                            android:contentDescription="Xe 1"
+                            android:scaleType="centerCrop"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🔴 XE 1"
+                            android:textColor="#FF5252"
+                            android:textStyle="bold"
+                            android:textSize="11sp"
+                            android:layout_marginTop="4dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tiền cược"
+                            android:textColor="#CCFFFFFF"
+                            android:textSize="10sp"
+                            android:layout_marginTop="6dp"/>
+
+                        <EditText
+                            android:id="@+id/edtBetCar1"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:hint="Nhập $"
+                            android:inputType="number"
+                            android:textColor="@android:color/white"
+                            android:textColorHint="#80FFFFFF"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            android:gravity="center"
+                            android:paddingStart="4dp"
+                            android:paddingEnd="4dp"
+                            android:layout_marginTop="4dp"
+                            android:background="@drawable/edit_text_bg"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Xe 2 - Brown Racing Car -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="4dp"
+                    app:cardBackgroundColor="#33FF6F00"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="4dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="8dp">
+
+                        <ImageView
+                            android:id="@+id/icCar2"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:src="@drawable/xe_nau"
+                            android:contentDescription="Xe 2"
+                            android:scaleType="centerCrop"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🟤 XE 2"
+                            android:textColor="#FF6F00"
+                            android:textStyle="bold"
+                            android:textSize="11sp"
+                            android:layout_marginTop="4dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tiền cược"
+                            android:textColor="#CCFFFFFF"
+                            android:textSize="10sp"
+                            android:layout_marginTop="6dp"/>
+
+                        <EditText
+                            android:id="@+id/edtBetCar2"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:hint="Nhập $"
+                            android:inputType="number"
+                            android:textColor="@android:color/white"
+                            android:textColorHint="#80FFFFFF"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            android:gravity="center"
+                            android:paddingStart="4dp"
+                            android:paddingEnd="4dp"
+                            android:layout_marginTop="4dp"
+                            android:background="@drawable/edit_text_bg"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Xe 3 - Blue Racing Car -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="4dp"
+                    app:cardBackgroundColor="#3300BCD4"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="4dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="8dp">
+
+                        <ImageView
+                            android:id="@+id/icCar3"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:src="@drawable/xe_xanh"
+                            android:contentDescription="Xe 3"
+                            android:scaleType="centerCrop"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🔵 XE 3"
+                            android:textColor="#00BCD4"
+                            android:textStyle="bold"
+                            android:textSize="11sp"
+                            android:layout_marginTop="4dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tiền cược"
+                            android:textColor="#CCFFFFFF"
+                            android:textSize="10sp"
+                            android:layout_marginTop="6dp"/>
+
+                        <EditText
+                            android:id="@+id/edtBetCar3"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:hint="Nhập $"
+                            android:inputType="number"
+                            android:textColor="@android:color/white"
+                            android:textColorHint="#80FFFFFF"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            android:gravity="center"
+                            android:paddingStart="4dp"
+                            android:paddingEnd="4dp"
+                            android:layout_marginTop="4dp"
+                            android:background="@drawable/edit_text_bg"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Footer compact cho landscape -->
     <LinearLayout
         android:id="@+id/footer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:gravity="center"
-        android:padding="12dp"
+        android:padding="8dp"
+        android:background="#99000000"
+        android:elevation="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <Button
             android:id="@+id/btnStartRace"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Start Race"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1.5"
+            android:layout_marginEnd="8dp"
+            android:text="🏁 BẮT ĐẦU ĐUA"
             android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:elevation="6dp"
             style="@style/PrimaryButton"
             android:background="@drawable/bg_drawable"/>
 
         <Button
             android:id="@+id/btnStatistics"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:text="Thống kê"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:text="📊 THỐNG KÊ"
             android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:textSize="13sp"
+            android:elevation="6dp"
             style="@style/PrimaryButton"
             android:background="@drawable/bg_drawable"/>
-        
-        
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

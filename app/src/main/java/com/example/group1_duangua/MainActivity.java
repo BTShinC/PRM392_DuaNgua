@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -83,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
             anim.start();
         }
 
+
         Button btnStartRace = findViewById(R.id.btnStartRace);
         btnStartRace.setOnClickListener(v -> {
             ArrayList<Bet> userBets = new ArrayList<>();
@@ -147,6 +149,13 @@ public class MainActivity extends AppCompatActivity {
             if (edtBetCar1 != null) edtBetCar1.setText("");
             if (edtBetCar2 != null) edtBetCar2.setText("");
             if (edtBetCar3 != null) edtBetCar3.setText("");
+        });
+
+        ImageButton btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, MainLoginActivity.class);
+            startActivity(intent);
+            finish();
         });
 
         Button btnRecharge = findViewById(R.id.btnRecharge);

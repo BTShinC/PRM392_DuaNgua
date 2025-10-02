@@ -1,0 +1,28 @@
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="#33FFFFFF">
+
+    <item>
+        <selector>
+            <!-- State khi pressed -->
+            <item android:state_pressed="true">
+                <shape android:shape="oval">
+                    <solid android:color="#66FFD700"/>
+                    <stroke
+                        android:width="2dp"
+                        android:color="#FFD700"/>
+                </shape>
+            </item>
+
+            <!-- State bình thường -->
+            <item>
+                <shape android:shape="oval">
+                    <solid android:color="#33FFFFFF"/>
+                    <stroke
+                        android:width="1dp"
+                        android:color="#66FFFFFF"/>
+                </shape>
+            </item>
+        </selector>
+    </item>
+
+</ripple>
