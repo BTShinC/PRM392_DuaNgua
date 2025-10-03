@@ -6,8 +6,11 @@ import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
+import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -46,7 +49,7 @@ public class RaceActivity extends AppCompatActivity {
 
     private ArrayList<Bet> userBets;
 
-    private TextView tvRaceBalance;
+    private TextView tvRaceBalance, tvCountdown;
     private SharedPreferences sharedPreferences;
     public static final String SHARED_PREFS_NAME = "MyPrefs";
     public static final String BALANCE_KEY = "balance";
@@ -63,7 +66,7 @@ public class RaceActivity extends AppCompatActivity {
             if (seekCar1.getProgress() >= 100) finishRace(1);
             else if (seekCar2.getProgress() >= 100) finishRace(2);
             else if (seekCar3.getProgress() >= 100) finishRace(3);
-            else handler.postDelayed(this, 150);
+            else handler.postDelayed(this, 170);
         }
     };
 
@@ -74,6 +77,7 @@ public class RaceActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE);
         tvRaceBalance = findViewById(R.id.tvBalance);
+        tvCountdown = findViewById(R.id.tvCountdown);
 
         Intent intent = getIntent();
         userBets = intent.getParcelableArrayListExtra("userBets");
@@ -181,6 +185,7 @@ public class RaceActivity extends AppCompatActivity {
                     startRacingSoundAndRun();
                 });
                 raceBeepPlayer.start();
+                startCountdown();
             } else {
                 stopAndRelease(idlePlayer);
                 idlePlayer = null;
@@ -194,6 +199,22 @@ public class RaceActivity extends AppCompatActivity {
             raceBeepPlayer = null;
             startRacingSoundAndRun();
         }
+    }
+
+    private void startCountdown() {
+        tvCountdown.setVisibility(View.VISIBLE);
+        new CountDownTimer(3000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                tvCountdown.setText(String.valueOf(millisUntilFinished / 1000 + 1));
+            }
+
+            public void onFinish() {
+                tvCountdown.setText("Bắt đầu");
+                new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                    tvCountdown.setVisibility(View.GONE);
+                }, 1000);
+            }
+        }.start();
     }
 
     private void startRacingSoundAndRun() {
@@ -275,11 +296,14 @@ public class RaceActivity extends AppCompatActivity {
 
         try {
             // Cập nhật trạng thái thắng
-            for (BetHistory userBet : userBets) {
-                if (userBet.getCarName().equals(expectedCarName)) {
-                    userBet.setWin(true);
+            if (userBets != null) {
+                for (BetHistory userBet : userBets) {
+                    if (userBet.getCarName().equals(expectedCarName)) {
+                        userBet.setWin(true);
+                    }
                 }
             }
+
 
             File file = new File(getFilesDir(), "bet_history.json");
 
@@ -297,7 +321,9 @@ public class RaceActivity extends AppCompatActivity {
             }
 
             // Gộp dữ liệu mới
-            historyList.addAll(userBets);
+            if (userBets != null) {
+                historyList.addAll(userBets);
+            }
 
             // Lưu lại file JSON
             FileOutputStream fos = new FileOutputStream(file);
