@@ -22,7 +22,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
 public class MainLoginActivity extends AppCompatActivity {
-
     EditText edtUsername, edtPassword;
     Button btnLogin, btnRegister;
     SharedPreferences sharedPreferences;
